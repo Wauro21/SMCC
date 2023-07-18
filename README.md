@@ -1,4 +1,4 @@
-# SMC - Core
+# SMC_Core
 
 <p align=center>
     <img src='github_images/icon.png'>
