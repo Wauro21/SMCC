@@ -142,8 +142,8 @@ def getFrequency(control_dict):
     req_freq = (speed*360*micro_step_factor) / (60*degrees_per_step)
 
     # Calculate freq counter for arduino
-    counter = round(ARDUINO_CONSTANTS.CLOCK/(req_freq*2*ARDUINO_CONSTANTS.PRESCALER) -1)
-    real_freq = ARDUINO_CONSTANTS.CLOCK/(2*ARDUINO_CONSTANTS.PRESCALER*(1+counter))
+    counter = round(ARDUINO_CONSTANTS.CLOCK.value/(req_freq*2*ARDUINO_CONSTANTS.PRESCALER.value) -1)
+    real_freq = ARDUINO_CONSTANTS.CLOCK.value/(2*ARDUINO_CONSTANTS.PRESCALER.value*(1+counter))
 
     return req_freq, real_freq, counter
 
