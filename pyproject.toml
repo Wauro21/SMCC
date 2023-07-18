@@ -3,14 +3,20 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "SMC_core"
-version = "0.0.2"
+name = "SMCC"
+version = "0.0.1"
 authors = [
   { name="Mauricio Aravena Cifuentes", email="maurio.aravena@sansano.usm.cl" },
 ]
 description = "SMC_core (SMCC) allows for direct communication and control of the Serial-Motor-Controller project via Python-code."
-readme = "tools/SMC_core/README.md"
+readme = "README.md"
 requires-python = ">=3.7"
+
+dependencies = [
+  'bitarray>=2.7.6',
+]
+
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
@@ -18,5 +24,5 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/Wauro21/Stepper-Motor-Controller"
-"Bug Tracker" = "https://github.com/Wauro21/Stepper-Motor-Controller/issues"
+"Homepage" = "https://github.com/Wauro21/SMCC"
+"Bug Tracker" = "https://github.com/Wauro21/SMCC/issues"

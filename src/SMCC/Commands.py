@@ -1,30 +1,9 @@
+import copy
 from bitarray import bitarray
 from bitarray.util import int2ba, zeros
-from enum import Enum
-import copy
+from .Constants import ARDUINO_CONSTANTS
 
-ARDUINO_CLOCK = 16000000
-ARDUINO_PRESCALER = 64
-MAX_SPEED_RPM = 50
-MIN_SPEED_RPM = 1
-MAX_STEPS = 32767
-MIN_STEPS = 0
-
-class MicroStepping(Enum):
-    FULL_STEP = ['Full-Step', bitarray('00 000 000'), 1]
-    HALF_STEP = ['Half-Step',bitarray('00 001 000'), 2]
-    QUARTER_STEP = ['1/4 Step', bitarray('00 010 000'), 4]
-    EIGHT_MICRO = ['1/8 Step', bitarray('00 011 000'), 8]
-    SIXTEEN_MICRO = ['1/16 Step', bitarray('00 100 000'), 16]
-    THIRTY_TWO_MICRO = ['1/32 Step', bitarray('00 111 000'), 32] # Can be 101 - 110 -
-
-# Defaults for controller
-MICRO_STEPPING_DEFAULT = MicroStepping.FULL_STEP # Full step
-RESET_DEFAULT = True # not-reseted
-ENABLE_DEFAULT = False # Enabled
-SLEEP_DEFAULT = True # Disable sleep
-
-# Commands defined by the controller
+# Commands template
 
 SETUP_BLANK = { #Works as a template for SETUP and STEP CMD
     'cmd': [
@@ -64,6 +43,8 @@ HALT_CMD = {
                         # 3 bytes for : step + step_counter
 }
 
+
+# Allows to place a boolean flag in a 8bit array
 def fillBool(values, start=0):
     padded = bitarray('0000 0000')
     n_bits = len(values)
@@ -79,7 +60,7 @@ def fillBool(values, start=0):
 
 
 
-
+# Prepares a setup command from control dictionary 
 def SETUP_CMD(control_dict):
 
     # Load template
@@ -101,7 +82,7 @@ def SETUP_CMD(control_dict):
     setup_cmd['cmd'] = cmd
     return setup_cmd
 
-
+# Prepares a step commmand from control dictionary
 def STEP_CMD(control_dict):
 
     # Load template
@@ -123,8 +104,7 @@ def STEP_CMD(control_dict):
     return step_cmd
 
 
-
-
+# Sends a command through coms
 def sendCommand(coms, cmd):
     k_cmd, k_r_size = cmd
     # Write command
@@ -141,6 +121,8 @@ def sendCommand(coms, cmd):
 
     return n_response
 
+
+# Convert an integer number to binary according to <size>
 def convert2Binary(number, size):
     number_bin = int2ba(number)
     if(len(number_bin) < size):
@@ -149,6 +131,7 @@ def convert2Binary(number, size):
     return number_bin
 
 
+# Gets the requiered frequency by the controller board
 def getFrequency(control_dict):
     
     # Calculate requiered frequency by the controller board
@@ -159,8 +142,8 @@ def getFrequency(control_dict):
     req_freq = (speed*360*micro_step_factor) / (60*degrees_per_step)
 
     # Calculate freq counter for arduino
-    counter = round(ARDUINO_CLOCK/(req_freq*2*64) -1)
-    real_freq = ARDUINO_CLOCK/(2*64*(1+counter))
+    counter = round(ARDUINO_CONSTANTS.CLOCK/(req_freq*2*ARDUINO_CONSTANTS.PRESCALER) -1)
+    real_freq = ARDUINO_CONSTANTS.CLOCK/(2*ARDUINO_CONSTANTS.PRESCALER*(1+counter))
 
     return req_freq, real_freq, counter
 
