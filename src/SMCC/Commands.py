@@ -1,7 +1,7 @@
 import copy
 from bitarray import bitarray
 from bitarray.util import int2ba, zeros
-from .Constants import ARDUINO_CONSTANTS
+from .Constants import ARDUINO_CONSTANTS, DEFAULTS, SOFTWARE_LIMITS
 
 # Commands template
 
@@ -119,6 +119,10 @@ def sendCommand(coms, cmd):
     for i in response:
         n_response.append(convert2Binary(i, 8))
 
+    # Check if response matches cmd sent
+    if(cmd['cmd'] != n_response):
+        raise Exception('Response received from controller does not matches sent command.')
+
     return n_response
 
 
@@ -136,7 +140,7 @@ def getFrequency(control_dict):
     
     # Calculate requiered frequency by the controller board
     speed = control_dict['speed']
-    degrees_per_step = 3.75
+    degrees_per_step = control_dict['degrees_per_step']
     micro_step_factor = control_dict['micro_stepping'].value[2]
 
     req_freq = (speed*360*micro_step_factor) / (60*degrees_per_step)
@@ -147,3 +151,35 @@ def getFrequency(control_dict):
 
     return req_freq, real_freq, counter
 
+
+def generateControlDict():
+    driver_controls = {
+        'comms': None,
+        'micro_stepping': DEFAULTS.MICRO_STEPPING_DEFAULT,
+        'reset': DEFAULTS.RESET_DEFAULT.value,  #Logic low for reset
+        'enable': DEFAULTS.ENABLE_DEFAULT.value, #Logic low for enable
+        'sleep': DEFAULTS.SLEEP_DEFAULT.value, # Logic low for sleep
+        'direction': False, #counterclock by default
+        'halt': False, # Halt flag
+        'speed': SOFTWARE_LIMITS.MIN_SPEED_RPM.value, # 
+        'steps': SOFTWARE_LIMITS.MIN_STEPS.value, # Requested number of steps
+        'freq': 0, # Frequency for steps
+        'freq_counter':0,
+        'degrees_per_step': None,
+    }
+
+    return driver_controls
+
+
+def checkConnection(ctrl_dict):
+    # Check if comms exists
+    if(ctrl_dict['comms'] == None):
+        raise Exception('There is no available port to test!')
+    
+    blank_ctrls = generateControlDict()
+    setup_cmd = SETUP_CMD(blank_ctrls)
+    # Send command performs comparisson
+    sendCommand(ctrl_dict['comms'], setup_cmd)
+
+    # Valid response
+    return True
