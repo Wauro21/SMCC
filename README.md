@@ -27,7 +27,7 @@ $ pip install smcc
 
 ```
 
-The project is hosted on the pypi register: https://pypi.org/projects/smcc
+The project is hosted on the pypi register: https://pypi.org/projects/SMCC
 
 
 ## Example use
