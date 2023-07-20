@@ -9,7 +9,7 @@
     - [1. `filBool(value, start=0)`](#1-filboolvalue-start0)
     - [2. `SETUP_CMD(control_dict)`](#2-setup_cmdcontrol_dict)
     - [3. `STEP_CMD(control_dict)`](#3-step_cmdcontrol_dict)
-    - [4. `sendCommand(coms, cmd)`](#4-sendcommandcoms-cmd)
+    - [4. `sendCommand(coms, cmd, check=True)`](#4-sendcommandcoms-cmd-checktrue)
     - [5. `convert2Binary(number, size)`](#5-convert2binarynumber-size)
     - [6. `getFrequency(control_dict)`](#6-getfrequencycontrol_dict)
     - [7. `generateControlDict()`](#7-generatecontroldict)
@@ -73,13 +73,14 @@ Returns a STEP Command with the `control_dict` configurations. Mainly the direct
 
 **Returns:** A dictionary with the step command with the information of ctrl_dict and the number of bytes expected for the controller response. The dictionary is based on the `STEP_BLANK` with the `control_dict` information written on top.
 
-### 4. `sendCommand(coms, cmd)`
+### 4. `sendCommand(coms, cmd, check=True)`
 
 Sends the desired command `cmd` via the `coms` serial port.
 
 **Parameters:**
 - `coms`: A PySerial serial port connection. Typically corresponds to `ctrl_dict['comms']`.
 - `cmd`: The desired command to send. Values can be: `SETUP_CMD`, `STEP_CMD`, `INFO_CMD` and `HALT_CMD`.
+- `check`: Indicates if symmetry on the response must be enforced. By default (True) the function checks if response must match the sent command. 
 
 **Returns:** The bytes associated with the controller response. 
 
