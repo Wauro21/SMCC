@@ -2,3 +2,4 @@ dist
 
 # Ignore tests
 src/full_test.py
+src/Pipfile*
