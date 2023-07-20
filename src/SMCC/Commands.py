@@ -5,7 +5,7 @@ from .Constants import ARDUINO_CONSTANTS, DEFAULTS, SOFTWARE_LIMITS
 
 # Commands template
 
-SETUP_BLANK = { #Works as a template for SETUP and STEP CMD
+SETUP_BLANK = { #Works as a template for SETUP CMD
     'cmd': [
             bitarray('10000000'), 
             bitarray('00000000'), 
@@ -14,7 +14,7 @@ SETUP_BLANK = { #Works as a template for SETUP and STEP CMD
     'response_size': 3, # 3 bytes
 }
 
-STEP_BLANK = { #Works as a template for SETUP and STEP CMD
+STEP_BLANK = { #Works as a template for STEP CMD
     'cmd': [
             bitarray('00000000'), 
             bitarray('00000000'), 
@@ -39,8 +39,7 @@ HALT_CMD = {
             bitarray('00000000'), # Filler packets
             bitarray('00000000')
             ],
-    'response_size': 1, # 3 bytes for : setup + freq_counter
-                        # 3 bytes for : step + step_counter
+    'response_size': 3, 
 }
 
 
