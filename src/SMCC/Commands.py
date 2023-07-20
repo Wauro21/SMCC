@@ -26,8 +26,6 @@ STEP_BLANK = { #Works as a template for STEP CMD
 INFO_CMD = {
     'cmd': [
             bitarray('01000000'), # Command packet
-            bitarray('00000000'), # Filler packets
-            bitarray('00000000')
             ],
     'response_size': 6, # 3 bytes for : setup + freq_counter
                         # 3 bytes for : step + step_counter
@@ -36,10 +34,8 @@ INFO_CMD = {
 HALT_CMD = {
     'cmd': [
             bitarray('11000000'), # Command packet
-            bitarray('00000000'), # Filler packets
-            bitarray('00000000')
             ],
-    'response_size': 3, 
+    'response_size': 1, 
 }
 
 
@@ -104,7 +100,7 @@ def STEP_CMD(control_dict):
 
 
 # Sends a command through coms
-def sendCommand(coms, cmd):
+def sendCommand(coms, cmd, check=True):
     k_cmd, k_r_size = cmd
     # Write command
     for byte_arr in cmd[k_cmd]:
@@ -119,8 +115,9 @@ def sendCommand(coms, cmd):
         n_response.append(convert2Binary(i, 8))
 
     # Check if response matches cmd sent
-    if(cmd['cmd'] != n_response):
-        raise Exception('Response received from controller does not matches sent command.')
+    if(check):
+        if(cmd['cmd'] != n_response):
+            raise Exception('Response received from controller does not matches sent command.')
 
     return n_response
 
