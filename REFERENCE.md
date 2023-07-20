@@ -12,8 +12,8 @@
     - [4. `sendCommand(coms, cmd)`](#4-sendcommandcoms-cmd)
     - [5. `convert2Binary(number, size)`](#5-convert2binarynumber-size)
     - [6. `getFrequency(control_dict)`](#6-getfrequencycontrol_dict)
-    - [7. generateControlDict()](#7-generatecontroldict)
-    - [8. checkConnection(ctrl\_dict)](#8-checkconnectionctrl_dict)
+    - [7. `generateControlDict()`](#7-generatecontroldict)
+    - [8. `checkConnection(ctrl_dict)`](#8-checkconnectionctrl_dict)
   - [Templates](#templates)
     - [1. `SETUP_BLANK`:](#1-setup_blank)
     - [2. `STEP_BLANK`:](#2-step_blank)
@@ -109,7 +109,7 @@ $$
 - `real_freq`: The factible frequency achievable with the Arduino timer.
 - `freq_counter`: The frequency counter requiered by the `real_freq` to generate the square wave on the controller. 
 
-### 7. generateControlDict()
+### 7. `generateControlDict()`
 
 Generates a default  control dictionary.
 
@@ -131,7 +131,7 @@ Generates a default  control dictionary.
 }
 ```
 
-### 8. checkConnection(ctrl_dict)
+### 8. `checkConnection(ctrl_dict)`
 
 Performs a serial connection check by sending a default SETUP_CMD to the controller and waiting for the response.
 
