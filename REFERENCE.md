@@ -208,8 +208,6 @@ Indicates the structure of the INFO Command. The controller responds this comman
 INFO_CMD = {
     'cmd': [
             bitarray('01000000'), # Command packet
-            bitarray('00000000'), # Filler packets
-            bitarray('00000000')
             ],
     'response_size': 6, # 3 bytes for : setup + freq_counter
                         # 3 bytes for : step + step_counter
@@ -239,8 +237,6 @@ Indicates the structure of the HALT Command. When sent the controller stops all 
 HALT_CMD = {
     'cmd': [
             bitarray('11000000'), # Command packet
-            bitarray('00000000'), # Filler packets
-            bitarray('00000000')
             ],
     'response_size': 1,
 }
