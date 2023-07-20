@@ -19,7 +19,7 @@ class MICROSTEPPING(Enum):
 class SOFTWARE_LIMITS(Enum):
     MAX_SPEED_RPM = 50
     MIN_SPEED_RPM = 1
-    MAX_STEPS = 32767 # This is by the register size
+    MAX_STEPS = 65535 # This is by the register size
     MIN_STEPS = 0
 
 
