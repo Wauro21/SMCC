@@ -40,7 +40,7 @@ Configure a 3.75°/step stepper motor to perform a full clockwise rotation at 20
 # Imports
 import serial
 import time
-from SMCC.Commands import SETUP_CMD, STEP_CMD, generateControlDict, sendCommand
+from SMCC.Commands import SETUP_CMD, STEP_CMD, generateControlDict, sendCommand, getFrequency
 
 # Configure motor
 ctrl_dict = generateControlDict()
